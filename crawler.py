@@ -1,14 +1,16 @@
-import requests
+# import requests
+from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import csv
 from datetime import datetime
 
 def get_html(url):
-	r = requests.get(url)
-	return r.text
+	# r = requests.get(url)
+	# return r.text
+	return urlopen(url)
 
 def get_all_links(html):
-	soup = BeautifulSoup(html, 'lxml')
+	soup = BeautifulSoup(html, "html.parser")
 
 	tds = soup.find('table', id='currencies-all').find_all('td', class_='currency-name')
 
@@ -22,7 +24,7 @@ def get_all_links(html):
 	return links
 
 def get_page_data(html):
-	soup = BeautifulSoup(html, 'lxml')
+	soup = BeautifulSoup(html, "html.parser")
 
 	try:
 		name = soup.find('h1', class_='text-large').text.strip()
